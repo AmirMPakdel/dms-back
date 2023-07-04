@@ -16,6 +16,9 @@ import getFileContentCtl from "./controllers/File/getFileContentCtl";
 import getFilePublicUrlCtl from "./controllers/File/getFilePublicUrlCtl";
 import getFileFromAccessLinkCtl from "./controllers/File/getFileFromAccessLinkCtl";
 import deleteFileCtl from "./controllers/TreeNode/deleteFileCtl";
+import { createRequiredDirs } from "./utils/FileUtil";
+import renameFileCtl from "./controllers/File/renameFileCtl";
+
 
 interface runServer_promise{
 
@@ -30,6 +33,8 @@ async function runServer():Promise<runServer_promise>{
         try{
 
             const db_init_res = await AppDatabase.init();
+
+            await createRequiredDirs();
 
             if(db_init_res.error){
 
@@ -70,7 +75,8 @@ async function runServer():Promise<runServer_promise>{
             app.get("/api/file/serve", getFileContentCtl);
             app.post("/api/file/getPublicUrl", currentUser, getFilePublicUrlCtl);
             app.get("/api/file/getFileFromAccessLink/:uuid", getFileFromAccessLinkCtl);
-            app.post("/api/file/delete", currentUser, deleteFileCtl)
+            app.post("/api/file/delete", currentUser, deleteFileCtl);
+            app.post("/api/file/rename", currentUser, renameFileCtl);
             
             app.listen(env.SERVER_PORT,()=>{
 

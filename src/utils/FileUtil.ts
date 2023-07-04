@@ -1,4 +1,23 @@
 import path from "path";
+import fs from "node:fs/promises";
+
+export function createRequiredDirs(){
+
+    return new Promise<void>(async(resolve)=>{
+
+        try{
+            await fs.mkdir("files");
+        }catch(e){
+            //do nothing
+        }
+        try{
+            await fs.mkdir("uploads_temp");
+        }catch(e){
+            //do nothing
+        }
+        resolve();
+    });
+}
 
 export function mimTypeToExt(mim:string){
 

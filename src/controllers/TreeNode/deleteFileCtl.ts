@@ -5,6 +5,7 @@ import Log from "../../utils/Log";
 import TreeNodeModel from "../../models/TreeNodeMdl";
 import FileModel from "@/models/FileMdl";
 import fs from "node:fs/promises";
+import TreeUtil from "@/utils/TreeUtil";
 
 async function deleteFileCtl(req: Request, res: Response) {
     //TODO: check inputs
@@ -14,7 +15,6 @@ async function deleteFileCtl(req: Request, res: Response) {
 
     let file = await FileModel.findOne({where:{
         id: file_id,
-        tree_id,
     }});
 
     if(!file){
@@ -23,7 +23,8 @@ async function deleteFileCtl(req: Request, res: Response) {
     }
 
     let node = await TreeNodeModel.findOne({where:{
-        file_id: file.id
+        file_id: file.id,
+        tree_id,
     }});
 
     if(!node){
@@ -34,6 +35,43 @@ async function deleteFileCtl(req: Request, res: Response) {
     if(file.type === "folder"){
 
         //TODO: delete files recursivly
+
+        let tree_nodes = await TreeNodeModel.findAll({where:{
+            tree_id
+        }});
+
+        let subTree = await TreeUtil.getSubtreeNodes(tree_nodes, node.id);
+
+        if(subTree){
+
+            let node_ids = subTree.map(v=>v.id);
+
+            let file_ids = subTree.map(v=>v.file_id);
+    
+            let all_files = await FileModel.findAll();
+    
+            subTree?.forEach((mnode) => {
+                all_files.forEach((mfile) => {
+                    if (mnode.file_id === mfile.id) {
+                        mnode.dataValues.file = mfile.toJSON();
+                    }
+                });
+            });
+    
+            let file_names = subTree.map(v=>{
+                if(v.dataValues.file.type !== "folder"){
+                    return (v.dataValues.file?.id+"."+v.dataValues.file?.ext)
+                }else{
+                    return "null";
+                }
+            }).filter((v)=>{
+                if(v !== "null"){ return true;}
+            });
+    
+            await bulkDeleteFiles(node_ids, file_ids, file_names);
+    
+            successResponse(res, {subTree, node_ids, file_ids, file_names});
+        }
 
     }else{
 
@@ -53,6 +91,27 @@ async function deleteFileCtl(req: Request, res: Response) {
         }
 
     }
+}
+
+function bulkDeleteFiles(node_ids:number[], file_ids:number[], file_names:string[]){
+
+    return new Promise<void>(async(resolve)=>{
+
+        await FileModel.destroy({where:{
+            id: file_ids
+        }});
+
+        await TreeNodeModel.destroy({where:{
+            id: node_ids
+        }});
+
+        for(const file_name of file_names){
+
+            await fs.unlink("files/"+file_name);
+        }
+
+        resolve();
+    });
 }
 
 export default async function (req: Request, res: Response) {
