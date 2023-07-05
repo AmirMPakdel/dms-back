@@ -6,12 +6,14 @@ export default class SharedNodeModel extends Model{
     declare id: number;
     declare node_id: number;
     declare file_id: number;
-    declare user_id: number;
+    declare username: string;
     declare owner_id: number;
-    declare name: string;
-    declare ext: string;
-    declare privileges: string;
-
+    declare file_name: string;
+    declare file_ext: string;
+    declare deletable: boolean;
+    declare can_update: boolean;
+    declare can_rename: boolean;
+    
     public static model_name = "SharedNode";
 
     public static model_atrributes:ModelAttributes = {
@@ -28,25 +30,33 @@ export default class SharedNodeModel extends Model{
             type: DataTypes.BIGINT,
             allowNull: true,
         },
-        user_id: {
-            type: DataTypes.BIGINT,
+        username: {
+            type: DataTypes.STRING,
             allowNull: true,
         },
         owner_id:{
             type: DataTypes.BIGINT,
             allowNull: true,
         },
-        name:{
+        file_name:{
             type: DataTypes.STRING,
             allowNull: false,
         },
-        ext:{
+        file_ext:{
             type: DataTypes.STRING(10),
             allowNull: false,
         },
-        privileges:{
-            type: DataTypes.STRING(10),
-            allowNull: false,
-        }
+        deletable:{
+            type: DataTypes.BOOLEAN,
+            defaultValue: true,
+        },
+        can_update:{
+            type: DataTypes.BOOLEAN,
+            defaultValue: false,
+        },
+        can_rename:{
+            type: DataTypes.BOOLEAN,
+            defaultValue: false,
+        },
     };
 }

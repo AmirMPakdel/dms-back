@@ -18,6 +18,7 @@ import getFileFromAccessLinkCtl from "./controllers/File/getFileFromAccessLinkCt
 import deleteFileCtl from "./controllers/TreeNode/deleteFileCtl";
 import { createRequiredDirs } from "./utils/FileUtil";
 import renameFileCtl from "./controllers/File/renameFileCtl";
+import addShareUserCtl from "./controllers/Share/addShareUserCtl";
 
 
 interface runServer_promise{
@@ -77,6 +78,8 @@ async function runServer():Promise<runServer_promise>{
             app.get("/api/file/getFileFromAccessLink/:uuid", getFileFromAccessLinkCtl);
             app.post("/api/file/delete", currentUser, deleteFileCtl);
             app.post("/api/file/rename", currentUser, renameFileCtl);
+            app.post("/api/file/addShareUser", currentUser, addShareUserCtl);
+            app.post("/api/file/addShareUser", currentUser, addShareUserCtl);
             
             app.listen(env.SERVER_PORT,()=>{
 

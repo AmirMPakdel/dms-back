@@ -5,6 +5,7 @@ import TreeNodeModel from "@/models/TreeNodeMdl";
 import env from "@/env";
 import FileModel from "@/models/FileMdl";
 import AccessLinkModel from "@/models/AccessLinkMdl";
+import SharedNodeModel from "@/models/SharedNodeMdl";
 
 class AppDatabase {
     private static Models = [
@@ -13,6 +14,7 @@ class AppDatabase {
         TreeNodeModel,
         UserModel,
         AccessLinkModel,
+        SharedNodeModel,
     ];
 
     private static singleton: AppDatabase;
