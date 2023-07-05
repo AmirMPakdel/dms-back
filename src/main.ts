@@ -19,6 +19,7 @@ import deleteFileCtl from "./controllers/TreeNode/deleteFileCtl";
 import { createRequiredDirs } from "./utils/FileUtil";
 import renameFileCtl from "./controllers/File/renameFileCtl";
 import addShareUserCtl from "./controllers/Share/addShareUserCtl";
+import getFileSharedUsersCtl from "./controllers/Share/getFileSharedUsersCtl";
 
 
 interface runServer_promise{
@@ -79,7 +80,7 @@ async function runServer():Promise<runServer_promise>{
             app.post("/api/file/delete", currentUser, deleteFileCtl);
             app.post("/api/file/rename", currentUser, renameFileCtl);
             app.post("/api/file/addShareUser", currentUser, addShareUserCtl);
-            app.post("/api/file/addShareUser", currentUser, addShareUserCtl);
+            app.post("/api/file/getFileSharedUsersCtl", currentUser, getFileSharedUsersCtl);
             
             app.listen(env.SERVER_PORT,()=>{
 
