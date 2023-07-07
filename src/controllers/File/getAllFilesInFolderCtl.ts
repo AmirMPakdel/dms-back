@@ -4,6 +4,7 @@ import { IEResponse, successResponse } from "@/utils/AppResponse";
 import Log from "@/utils/Log";
 import TreeNodeModel from "@/models/TreeNodeMdl";
 import FileModel from "@/models/FileMdl";
+import SharedNodeModel from "@/models/SharedNodeMdl";
 
 async function getAllFilesInFolderCtl(req: Request, res: Response) {
     //check inputs
@@ -11,16 +12,32 @@ async function getAllFilesInFolderCtl(req: Request, res: Response) {
 
     let tree_id = req.currentUser?.tree_id;
 
-    let treeNodes = await TreeNodeModel.findAll({
-        where: {
-            tree_id,
-            parent_id,
-        },
-    });
+    let list = [];
+
+    //for shared Files
+    if(parent_id == -1){
+
+        let username = req.currentUser?.username;
+        console.log(username);
+        
+        list = await SharedNodeModel.findAll({where:{
+            username,
+        }});
+        console.log(list);
+
+    }else{
+
+        list = await TreeNodeModel.findAll({
+            where: {
+                tree_id,
+                parent_id,
+            },
+        });
+    }
 
     let files = await FileModel.findAll();
 
-    treeNodes.forEach((node) => {
+    list.forEach((node) => {
         files.forEach((file) => {
             if (node.file_id === file.id) {
                 node.dataValues.file = file.toJSON();
@@ -28,7 +45,7 @@ async function getAllFilesInFolderCtl(req: Request, res: Response) {
         });
     });
 
-    successResponse(res, treeNodes);
+    successResponse(res, list);
 }
 
 export default async function (req: Request, res: Response) {

@@ -1,3 +1,4 @@
+import { codeResponse, statusList } from "@/utils/AppResponse";
 import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
 
@@ -19,21 +20,14 @@ export const currentUser = (
     res: Response,
     next: NextFunction
 ) => {
-    // if (!req.session?.jwt) {
-    //     return next();
-    // }
-
-    //req.session.jwt,
     try {
-        console.log("jwt "+req.body.token);
-        
         const payload = jwt.verify(req.body.token, process.env.JWT_SECRET!) as UserPayload;
-        req.currentUser = payload;
-        console.log(req.currentUser);
         
+        console.log(payload);
+        req.currentUser = payload;
+        next();
     } catch (err) {
         console.log(err);
+        codeResponse(res, statusList.AUTH_FAILED, {message: err});
     }
-
-    next();
 };
