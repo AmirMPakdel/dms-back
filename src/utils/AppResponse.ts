@@ -6,6 +6,7 @@ export const statusList = {
     INTERNAL_ERROR:{"code":5000, "error":"INTERNAL_ERROR" },
     OBJECT_NOT_FOUND:{"code":4000, "error":"OBJECT_NOT_FOUND"},
     AUTH_FAILED: {code: 3001, error:"AUTH_FAILED"},
+    WRONG_CREDENTIAL: {code: 3002, error:"WRONG_CREDENTIAL"},
 }
 
 export function successResponse(res : Response, body : any){
@@ -26,7 +27,7 @@ export function IEResponse(res : Response, body : any){
 }
 
 export function codeResponse(res : Response, status: ResponseCode, body : any){
-
+    
     res.json({
         rc: status.code,
         data: body

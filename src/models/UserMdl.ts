@@ -6,6 +6,9 @@ export default class UserModel extends Model{
     declare id: number;
     declare username: string;
     declare tree_id: number;
+    declare firstname: string;
+    declare lastname: string;
+    declare national_code: string;
     declare token: string;
     declare password: string;
 
@@ -31,6 +34,10 @@ export default class UserModel extends Model{
         },
         lastname:{
             type: DataTypes.STRING,
+            allowNull: false,
+        },
+        national_code:{
+            type: DataTypes.STRING(10),
             allowNull: false,
         },
         token: {

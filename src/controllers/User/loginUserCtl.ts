@@ -23,14 +23,14 @@ async function loginUserCtl(req: Request, res: Response) {
     }
 
     if(!user){
-        codeResponse(res, statusList.AUTH_FAILED, {message:statusList.AUTH_FAILED.error});
+        codeResponse(res, statusList.WRONG_CREDENTIAL, {message:statusList.WRONG_CREDENTIAL.error});
         return;
     }
 
     let passwords_match = await Password.compare(user.password, password);
 
     if(!passwords_match){
-        codeResponse(res, statusList.AUTH_FAILED, {message:statusList.AUTH_FAILED.error});
+        codeResponse(res, statusList.WRONG_CREDENTIAL, {message:statusList.WRONG_CREDENTIAL.error});
         return;
     }
 
