@@ -21,6 +21,7 @@ import renameFileCtl from "./controllers/File/renameFileCtl";
 import addShareUserCtl from "./controllers/Share/addShareUserCtl";
 import getFileSharedUsersCtl from "./controllers/Share/getFileSharedUsersCtl";
 import deleteSharedUserCtl from "./controllers/Share/deleteSharedUserCtl";
+import loadUserInfoCtl from "./controllers/User/loadUserInfoCtl";
 
 
 interface runServer_promise{
@@ -69,6 +70,7 @@ async function runServer():Promise<runServer_promise>{
 
             app.post("/api/user/signup", signupUserCtl);
             app.post("/api/user/login", loginUserCtl);
+            app.post("/api/user/loadUserInfo", currentUser, loadUserInfoCtl)
             
             app.post("/api/dash/createFolder", currentUser, createFolderCtl);
             app.post("/api/dash/getAllFilesInFolder", currentUser, getAllFilesInFolderCtl);

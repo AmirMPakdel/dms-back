@@ -22,12 +22,9 @@ export const currentUser = (
 ) => {
     try {
         const payload = jwt.verify(req.body.token, process.env.JWT_SECRET!) as UserPayload;
-        
-        console.log(payload);
         req.currentUser = payload;
         next();
     } catch (err) {
-        console.log(err);
         codeResponse(res, statusList.AUTH_FAILED, {message: err});
     }
 };
