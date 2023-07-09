@@ -24,7 +24,7 @@ class AppDatabase {
     private constructor() {
         this.sequelize = new Sequelize({
             sync: {alter:true, force:false},
-            dialect: env.DB_DIALECT,
+            dialect: env.DB_DIALECT, 
             host: env.DB_HOST,
             database: env.DB_NAME,
             username: env.DB_USERNAME,
