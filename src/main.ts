@@ -17,11 +17,13 @@ import getFilePublicUrlCtl from "./controllers/File/getFilePublicUrlCtl";
 import getFileFromAccessLinkCtl from "./controllers/File/getFileFromAccessLinkCtl";
 import deleteFileCtl from "./controllers/TreeNode/deleteFileCtl";
 import { createRequiredDirs } from "./utils/FileUtil";
-import renameFileCtl from "./controllers/File/renameFileCtl";
 import addShareUserCtl from "./controllers/Share/addShareUserCtl";
 import getFileSharedUsersCtl from "./controllers/Share/getFileSharedUsersCtl";
 import deleteSharedUserCtl from "./controllers/Share/deleteSharedUserCtl";
 import loadUserInfoCtl from "./controllers/User/loadUserInfoCtl";
+import updateFileCtl from "./controllers/TreeNode/updateFileCtl";
+import loginWithCasCtl from "./controllers/User/loginWithCasCtl";
+import downloadFileCtl from "./controllers/File/downloadFileCtl";
 
 
 interface runServer_promise{
@@ -70,7 +72,8 @@ async function runServer():Promise<runServer_promise>{
 
             app.post("/api/user/signup", signupUserCtl);
             app.post("/api/user/login", loginUserCtl);
-            app.post("/api/user/loadUserInfo", currentUser, loadUserInfoCtl)
+            app.post("/api/user/loginWithCas", loginWithCasCtl);
+            app.post("/api/user/loadUserInfo", currentUser, loadUserInfoCtl);
             
             app.post("/api/dash/createFolder", currentUser, createFolderCtl);
             app.post("/api/dash/getAllFilesInFolder", currentUser, getAllFilesInFolderCtl);
@@ -78,11 +81,12 @@ async function runServer():Promise<runServer_promise>{
             app.post("/api/dash/uploadFile", upload.single("file"), currentUser, uploadFileCtl);
             
             app.get("/api/file/getFileFromAccessLink/:uuid", getFileFromAccessLinkCtl);
+            app.get("/api/file/downloadFile", currentUser, downloadFileCtl);
             app.get("/api/file/serve", getFileContentCtl);
 
             app.post("/api/file/getPublicUrl", currentUser, getFilePublicUrlCtl);
             app.post("/api/file/delete", currentUser, deleteFileCtl);
-            app.post("/api/file/rename", currentUser, renameFileCtl);
+            app.post("/api/file/update", upload.single("file"), currentUser, updateFileCtl);
             app.post("/api/file/addShareUser", currentUser, addShareUserCtl);
             app.post("/api/file/getFileSharedUsers", currentUser, getFileSharedUsersCtl);
             app.post("/api/file/deleteSharedUser", currentUser, deleteSharedUserCtl);

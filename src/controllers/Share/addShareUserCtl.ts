@@ -38,6 +38,9 @@ async function addShareUserCtl(req: Request, res: Response) {
         owner_id: tree_id,
         file_name: file.name,
         file_ext: file.ext,
+        deletable: true,
+        can_update: false,
+        can_rename: false,
     });
 
     try {

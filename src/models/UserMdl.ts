@@ -11,6 +11,7 @@ export default class UserModel extends Model{
     declare national_code: string;
     declare token: string;
     declare password: string;
+    declare sso_token: string;
 
     public static model_name = "User";
 
@@ -48,5 +49,9 @@ export default class UserModel extends Model{
             type: DataTypes.STRING,
             allowNull: false,
         },
+        sso_token: {
+            type: DataTypes.STRING,
+            allowNull: true,
+        }
     };
 }

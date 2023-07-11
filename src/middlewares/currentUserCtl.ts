@@ -20,6 +20,11 @@ export const currentUser = (
     res: Response,
     next: NextFunction
 ) => {
+    
+    if(req.method === "GET"){
+        req.body = {token:req.headers.token};
+    }
+
     try {
         const payload = jwt.verify(req.body.token, process.env.JWT_SECRET!) as UserPayload;
         req.currentUser = payload;

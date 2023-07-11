@@ -7,6 +7,7 @@ export const statusList = {
     OBJECT_NOT_FOUND:{"code":4000, "error":"OBJECT_NOT_FOUND"},
     AUTH_FAILED: {code: 3001, error:"AUTH_FAILED"},
     WRONG_CREDENTIAL: {code: 3002, error:"WRONG_CREDENTIAL"},
+    INPUT_NOT_FOUND: {code:3003, error:"INPUT_NOT_FOUND"},
 }
 
 export function successResponse(res : Response, body : any){

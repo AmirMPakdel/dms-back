@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { BaseError } from "sequelize";
-import { IEResponse, successResponse } from "../../utils/AppResponse";
+import { IEResponse, codeResponse, statusList, successResponse } from "../../utils/AppResponse";
 import Log from "../../utils/Log";
 import TreeNodeModel from "../../models/TreeNodeMdl";
 import FileModel from "@/models/FileMdl";
@@ -13,24 +13,12 @@ async function uploadFileCtl(req: Request, res: Response) {
     //TODO: check inputs
     const { name, type, parent_id } = req.body;
 
-    console.log("token "+req.body.token);
-    
-
     const tree_id = req.currentUser?.tree_id;
-
-    log("tree_id "+tree_id);
 
     const file = req.file;
 
-    //TODO: change
-    log(file);
     if (!file) {
-        successResponse(res, {
-            name,
-            type,
-            parent_id,
-            file: file,
-        });
+        codeResponse(res, statusList.INPUT_NOT_FOUND, {error:"input file not found!"});
         return;
     }
 

@@ -48,15 +48,15 @@ export default class SharedNodeModel extends Model{
         },
         deletable:{
             type: DataTypes.BOOLEAN,
-            defaultValue: true,
+            allowNull: false,
         },
         can_update:{
             type: DataTypes.BOOLEAN,
-            defaultValue: false,
+            allowNull: false,
         },
         can_rename:{
             type: DataTypes.BOOLEAN,
-            defaultValue: false,
+            allowNull: false,
         },
     };
 }

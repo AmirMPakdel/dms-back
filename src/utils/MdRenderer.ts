@@ -35,7 +35,6 @@ export const mdRenderer = (file_path: string)=>{
 
         <title>Markdown Document</title>
 
-
         <link rel="stylesheet" href="./statics/md_bundle/default.css">
 
         <link rel="stylesheet" href="./statics/md_bundle/highlight.js.css">
@@ -44,16 +43,17 @@ export const mdRenderer = (file_path: string)=>{
         
         <link rel="stylesheet" type="text/css" href="./statics/md_bundle/prism.min.css" id="_prism">
         
-        <link rel="stylesheet" href="./statics/md_bundle/fonts.css">
-
         <link rel="stylesheet" href="./statics/md_bundle/bootstrap.min.css">
 
         <script src="./statics/md_bundle/jquery-3.2.1.slim.min.js"></script>
-        
+
         <script src="./statics/md_bundle/popper.min.js"></script>
 
         <script src="./statics/md_bundle/bootstrap.min.js"></script>
-  
+
+        <link rel="stylesheet" href="./statics/md_bundle/fonts.css">
+
+        <link rel="stylesheet" href="./statics/md_bundle/custom.css">
 
       </head>
 

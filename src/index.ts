@@ -1,5 +1,10 @@
 import env from "./env";
 import runServer from "./main";
+// import {replaceTscAliasPaths} from "tsc-alias";
+
+// replaceTscAliasPaths({
+//     resolveFullPaths:true,
+// })
 
 runServer().then(({error, res})=>{
 

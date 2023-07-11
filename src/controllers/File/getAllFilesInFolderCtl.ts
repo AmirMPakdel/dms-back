@@ -18,12 +18,19 @@ async function getAllFilesInFolderCtl(req: Request, res: Response) {
     if(parent_id == -1){
 
         let username = req.currentUser?.username;
-        console.log(username);
         
         list = await SharedNodeModel.findAll({where:{
             username,
         }});
-        console.log(list);
+
+        list.forEach(n=>{
+            n.dataValues.file = {
+                name: n.file_name,
+                id: n.file_id,
+                ext: n.file_ext,
+                type: n.file_ext,
+            }
+        });
 
     }else{
 
@@ -33,17 +40,17 @@ async function getAllFilesInFolderCtl(req: Request, res: Response) {
                 parent_id,
             },
         });
-    }
 
-    let files = await FileModel.findAll();
+        let files = await FileModel.findAll();
 
-    list.forEach((node) => {
-        files.forEach((file) => {
-            if (node.file_id === file.id) {
-                node.dataValues.file = file.toJSON();
-            }
+        list.forEach((node) => {
+            files.forEach((file) => {
+                if (node.file_id === file.id) {
+                    node.dataValues.file = file.toJSON();
+                }
+            });
         });
-    });
+    }
 
     successResponse(res, list);
 }

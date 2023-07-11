@@ -15,6 +15,15 @@ async function getFileSharedUsersCtl(req: Request, res: Response) {
         owner_id: tree_id,
     }})
 
+    sharedNodes.forEach(n=>{
+        n.dataValues.file = {
+            name: n.file_name,
+            id: n.file_id,
+            ext: n.file_ext,
+            type: n.file_ext,
+        }
+    });
+
     successResponse(res, { list:sharedNodes });
 }
 

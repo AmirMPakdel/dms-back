@@ -6,6 +6,8 @@ import TreeNodeModel from "../../models/TreeNodeMdl";
 import FileModel from "@/models/FileMdl";
 import fs from "node:fs/promises";
 import TreeUtil from "@/utils/TreeUtil";
+import SharedNodeModel from "@/models/SharedNodeMdl";
+import AccessLinkModel from "@/models/AccessLinkMdl";
 
 async function deleteFileCtl(req: Request, res: Response) {
     //TODO: check inputs
@@ -79,8 +81,17 @@ async function deleteFileCtl(req: Request, res: Response) {
 
         if(file_stat.isFile()){
 
+            await SharedNodeModel.destroy({where:{
+                file_id: file.id
+            }});
+
+            await AccessLinkModel.destroy({where:{
+                file_id: file.id
+            }});
+
             await file.destroy();
             await node.destroy();
+
             await fs.unlink("files/"+file.id+"."+file.ext);
 
             successResponse(res, {messsage:"file deleted!"});
