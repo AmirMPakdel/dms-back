@@ -24,6 +24,8 @@ import loadUserInfoCtl from "./controllers/User/loadUserInfoCtl";
 import updateFileCtl from "./controllers/TreeNode/updateFileCtl";
 import loginWithCasCtl from "./controllers/User/loginWithCasCtl";
 import downloadFileCtl from "./controllers/File/downloadFileCtl";
+import getFilePlainContentCtl from "./controllers/File/getFilePlainContentCtl";
+import saveFilePlainContentCtl from "./controllers/File/saveFilePlainContentCtl";
 
 
 interface runServer_promise{
@@ -60,6 +62,7 @@ async function runServer():Promise<runServer_promise>{
                 origin:[
                     "http://localhost:3000",
                     "http://localhost:5080",
+                    "http://localhost:50817",
                 ]
             };
 
@@ -90,6 +93,9 @@ async function runServer():Promise<runServer_promise>{
             app.post("/api/file/addShareUser", currentUser, addShareUserCtl);
             app.post("/api/file/getFileSharedUsers", currentUser, getFileSharedUsersCtl);
             app.post("/api/file/deleteSharedUser", currentUser, deleteSharedUserCtl);
+            app.post("/api/file/getFilePlainContent", currentUser, getFilePlainContentCtl);
+            app.post("/api/file/saveFilePlainContent", currentUser, saveFilePlainContentCtl);
+            
             
 
             app.listen(env.SERVER_PORT,()=>{
